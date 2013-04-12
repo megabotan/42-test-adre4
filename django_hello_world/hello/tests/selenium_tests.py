@@ -1,5 +1,5 @@
 from django.test import LiveServerTestCase
-from django.conf import settings
+from selenium.webdriver.common.keys import Keys
 
 
 class HttpTestSelenium(LiveServerTestCase):
@@ -14,7 +14,6 @@ class HttpTestSelenium(LiveServerTestCase):
     def tearDownClass(cls):
         cls.driver.quit()
         super(HttpTestSelenium, cls).tearDownClass()
-        
 
     def test_check_admin_work_and_contains_Person(self):
         self.driver.get(self.live_server_url + '/admin/')
@@ -28,4 +27,4 @@ class HttpTestSelenium(LiveServerTestCase):
         body = self.driver.find_element_by_tag_name('body')
         self.assertIn('Site administration', body.text)  # checks you can login
         persons_links = self.driver.find_elements_by_link_text('Persons')
-        self.assertEquals(len(persons_links), 1)  # checks Person in admin     
+        self.assertEquals(len(persons_links), 1)  # checks Person in admin

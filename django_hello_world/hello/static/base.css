@@ -1,0 +1,10 @@
+div.left_col{
+	margin-left: 4%;
+	float: left;
+	width: 48%;
+}
+div.right_col{
+	margin-left: 52%;
+	width: 50%;
+}
+
