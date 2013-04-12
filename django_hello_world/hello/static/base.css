@@ -1,10 +1,16 @@
+div.content{
+    overflow: hidden;
+    min-width: 800px;
+}
 div.left_col{
 	margin-left: 4%;
 	float: left;
-	width: 48%;
+	width: 44%;
+	padding: 5px;
 }
 div.right_col{
 	margin-left: 52%;
-	width: 50%;
+	width: 44%;
+    padding: 5px;
 }
 
