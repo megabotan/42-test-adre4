@@ -1,16 +1,60 @@
+div.header{
+    overflow: hidden;
+    min-width: 800px;
+}
 div.content{
     overflow: hidden;
     min-width: 800px;
 }
 div.left_col{
-	margin-left: 4%;
+	margin-left: 50px;
 	float: left;
-	width: 44%;
-	padding: 5px;
+	width: 350px;
 }
 div.right_col{
-	margin-left: 52%;
-	width: 44%;
-    padding: 5px;
+	margin-left: 450px;
+	width: 350px;
+	height: 100%;
+	position: relative;
 }
-
+div.footer{
+    margin-top: 10px;
+}
+div.top_half{
+    min-height: 200px;
+    overflow: auto;
+}
+div.bot_half{
+    min-height: 200px;
+    overflow: auto;
+}
+div.auth{
+    margin-right: 25px;
+    position: relative;
+    top: 0;
+    right: 0;
+    float: right;
+}
+table.requests{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+table.requests tr{
+    border: 1px;
+}
+table.requests td{
+    border: 1px solid;
+    padding: 8px;
+}
+table.requests th{
+    border: 2px solid black;
+    padding: 8px;
+}
+img.thumbnail{
+    max-width: 100%;
+    max-height: 500px;
+}
+textarea.read_only{
+    border: none;
+    width: 100%;
+}

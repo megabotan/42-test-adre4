@@ -5,13 +5,24 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}base.css">
 	<title>{% block title %}42 Coffee Cups Test Assignment{% endblock %}</title>
-
+	{% block script%}{% endblock %}
 </head>
 
 <body>
 	{% block body %}
 	    <div class="header">
+		    <div class="left_col">
 		        <h2>42 Coffee Cups Test Assignment</h2>
+		    </div>
+		    <div class="right_col">
+		        <div class="auth">
+		            {% if user.is_authenticated %}
+		                <p>Logged in as: {{user}}</p>
+		            {% else %}
+		                <p><a href="/login/?next=/">Login</a></p>
+		            {% endif %}
+		        </div>
+		    </div>
 		</div>
 		{% block content %}
 		{% endblock content %}
