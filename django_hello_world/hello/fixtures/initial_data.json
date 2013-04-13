@@ -12,9 +12,23 @@
             "last_login": "2011-08-19 09:59:01", 
             "groups": [], 
             "user_permissions": [], 
-            "password": "sha1$b6575$27241f449f25136d2dad689f97cf3c1066cdc162", 
+            "password": "sha1$2f339$6f0dfc32e1f510d429718dfb1c8d6c3a8ead84ab", 
             "email": "admin@example.com", 
             "date_joined": "2011-08-19 09:53:08"
         }
+    },
+    {
+        "model": "hello.Person",
+        "pk": 1,
+        "fields": {
+            "name": "Andrew",
+            "last_name": "Kovalenko",
+            "date_of_birth": "1991-06-26",
+            "bio": "KPI \n student",
+            "email": "adrekoval@gmail.com",
+            "jabber": "megabotan@jabber.ru",
+            "skype": "kovalsmall", 
+            "other_contacts": "none"
     }
+  }
 ]

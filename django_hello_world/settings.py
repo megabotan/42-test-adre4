@@ -120,7 +120,11 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'django_hello_world.hello',
+    'south',
+    'django_nose',
 )
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -144,3 +148,5 @@ LOGGING = {
         },
     }
 }
+
+MY_ID = 1
