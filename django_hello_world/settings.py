@@ -98,6 +98,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django_hello_world.hello.http_request_middleware.Middleware',
 )
 
 ROOT_URLCONF = 'django_hello_world.urls'
@@ -150,3 +151,4 @@ LOGGING = {
 }
 
 MY_ID = 1
+REQUESTS_ON_PAGE = 10
