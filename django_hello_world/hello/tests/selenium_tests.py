@@ -48,3 +48,40 @@ class HttpTestSelenium(LiveServerTestCase):
             self.assertIn(expected_requests[i].path, body_text)
         for i in range(reqests_on_page, reqests_on_page*2):
             self.assertNotIn(expected_requests[i].path, body_text)
+          
+    def test_edit_page(self):
+        self.driver.get(self.live_server_url + '/edit/')
+        self.assertEquals(self.driver.current_url,
+                          self.live_server_url + '/login/?next=/edit/'
+                          )
+        username_field = self.driver.find_element_by_name('username')
+        username_field.send_keys('admin')
+        password_field = self.driver.find_element_by_name('password')
+        password_field.send_keys('admin')
+        password_field.send_keys(Keys.RETURN)
+        self.assertEquals(self.driver.current_url,
+                          self.live_server_url + '/edit/'
+                          )
+        body = self.driver.find_element_by_tag_name('body')
+        self.assertIn('Cancel', body.text)
+        data = dict(name='name',
+                    last_name='last_name',
+                    bio='bio',
+                    email='email@email.com',
+                    jabber='jabber',
+                    skype='skype',
+                    other_contacts='other_contacts'
+                    )
+        for elem in data:
+            field = self.driver.find_element_by_name(elem)
+            field.clear()
+            field.send_keys(data[elem])
+        field = self.driver.find_element_by_name('date_of_birth')
+        field.clear()
+        field.send_keys('1999-01-01')
+        self.driver.find_element_by_name(data.keys()[0]).submit()
+        self.driver.get(self.live_server_url + '/')
+        body = self.driver.find_element_by_tag_name('body')
+        for elem in data:
+            self.assertIn(data[elem], body.text)
+        self.assertIn('Jan. 1, 1999', body.text)
