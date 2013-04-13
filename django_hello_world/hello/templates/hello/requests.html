@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div>
+        <table class="requests">
+                <tr>
+                    <th>Url</th>
+                    <th>Method</th>
+                    <th>User</th>
+                    <th>Date</th>
+                </tr>
+            {% for request_ in first_requests %}
+                <tr>
+                    <td><a href="{{request_.path}}">{{request_.path}}</td>
+                    <td>{{request_.method}}</td>
+                    <td>{{request_.user}}</td>
+                    <td>{{request_.date}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+	</div>
+
+{% endblock content %}
