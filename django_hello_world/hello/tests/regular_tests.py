@@ -26,3 +26,11 @@ class HttpTest(TestCase):
             self.assertContains(response, expected_requests[i].path)
         for i in range(reqests_on_page, reqests_on_page*2):
             self.assertNotContains(response, expected_requests[i].path)
+
+
+class TemplateContextProcessor(TestCase):
+    def test_settings(self):
+        requestString = '/vblkzlcxvbru'
+        response = self.client.get(requestString)
+        self.assertTrue('settings' in response.context)
+        self.assertEquals(response.context['settings'], settings)
