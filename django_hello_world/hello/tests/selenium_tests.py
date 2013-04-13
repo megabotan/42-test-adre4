@@ -48,7 +48,7 @@ class HttpTestSelenium(LiveServerTestCase):
             self.assertIn(expected_requests[i].path, body_text)
         for i in range(reqests_on_page, reqests_on_page*2):
             self.assertNotIn(expected_requests[i].path, body_text)
-          
+
     def test_edit_page(self):
         self.driver.get(self.live_server_url + '/edit/')
         self.assertEquals(self.driver.current_url,

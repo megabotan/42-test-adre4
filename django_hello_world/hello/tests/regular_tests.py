@@ -26,12 +26,13 @@ class HttpTest(TestCase):
             self.assertContains(response, expected_requests[i].path)
         for i in range(reqests_on_page, reqests_on_page*2):
             self.assertNotContains(response, expected_requests[i].path)
-            
+
     def test_edit_page(self):
         new_name = self.me.name+'1'
         response = self.client.get('/edit/')
         self.assertRedirects(response, '/login/?next=/edit/')
         self.assertTrue(self.client.login(username='admin', password='admin'))
+        photo = open('django_hello_world/hello/tests/test_image.jpg', 'r')
         response = self.client.post('/edit/',
                                     {'name': new_name,
                                      'last_name': self.me.last_name,
@@ -41,9 +42,11 @@ class HttpTest(TestCase):
                                      'jabber': self.me.jabber,
                                      'skype': self.me.skype,
                                      'other_contacts': self.me.other_contacts,
+                                     'photo': photo,
                                      })
         response = self.client.get('/')
         self.assertContains(response, new_name)
+        self.assertContains(response, 'Photo')
 
 
 class TemplateContextProcessor(TestCase):
