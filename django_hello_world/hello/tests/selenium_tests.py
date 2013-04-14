@@ -39,7 +39,7 @@ class HttpTestSelenium(LiveServerTestCase):
         self.driver.get(self.live_server_url + '/')
         body = self.driver.find_element_by_tag_name('body')
         self.assertIn('requests', body.text)  # checks requests href
-        self.driver.find_element_by_link_text("requests").click()
+        self.driver.find_element_by_link_text('requests').click()
         body_text = self.driver.find_element_by_tag_name('body').text
         expected_requests = (Request.objects.all()
                              .order_by('date')[:reqests_on_page*2]
@@ -79,9 +79,8 @@ class HttpTestSelenium(LiveServerTestCase):
         date_field = self.driver.find_element_by_name('date_of_birth')
         date_field.clear()
         date_field.send_keys("")
-        self.assertTrue(
-            self.driver.find_element_by_id("ui-datepicker-div").size() != 0)
-        date_field.send_keys('1999-01-01')
+        self.driver.find_element_by_id("ui-datepicker-div")
+        date_field.send_keys('01/01/1999')
         self.driver.find_element_by_name(data.keys()[0]).submit()
         self.driver.get(self.live_server_url + '/')
         body = self.driver.find_element_by_tag_name('body')

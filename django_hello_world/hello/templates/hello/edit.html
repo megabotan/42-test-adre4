@@ -1,33 +1,14 @@
 {% extends "base.html" %}
 
 {% block script%}
-<script>
-    window.onload = function(){
-        document.getElementById('id_photo').setAttribute("onchange","readURL(this);")
-        var img = document.getElementById('thumb');
-        img.style.visibility = 'hidden';
-        img.onerror = function () { 
-            this.style.display = "none";
-        }
-    };
-    
-    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var image = document.getElementById('thumb');
-                        image.setAttribute('src', e.target.result);
-                        image.style.visibility = 'visible';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.9.1.js"></script>
+{{form.media}}
+<script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
 {% endblock %}
 
 
 {% block content %}
-	<form enctype="multipart/form-data" action="/edit/" method="post">{% csrf_token %}
+	<form id="edit_form" enctype="multipart/form-data" action="/edit/" method="post">{% csrf_token %}
         {{ form.non_field_errors }}
     <div class="content">
     
@@ -88,7 +69,7 @@
         </div>
         
     </div>
-
+    <div id="result"></div>
      <input type="submit" value="Save" />
      <a href="/">Cancel</a>
     </form>
