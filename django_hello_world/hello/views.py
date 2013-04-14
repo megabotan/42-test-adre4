@@ -3,7 +3,7 @@ from django_hello_world.hello.forms import PersonForm
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 import os
 
 
@@ -27,7 +27,7 @@ def edit(request):
             form = PersonForm(request.POST, request.FILES, instance=person)
             form.save()
             clear_images_folder(person.photo)
-            return HttpResponseRedirect('/')
+            return HttpResponse("Changes have been saved")
     else:
         form = PersonForm(instance=person)
     return render(request, 'hello/edit.html', {

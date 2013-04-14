@@ -58,3 +58,10 @@ textarea.read_only{
     border: none;
     width: 100%;
 }
+div.ui-datepicker{
+ font-size:12px;
+}
+div.fieldWrapper input{
+    position: absolute;
+    left: 150px;
+}
