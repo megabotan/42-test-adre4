@@ -162,6 +162,8 @@ LOGGING = {
 
 LOGIN_URL = '/login/'
 
+LOGOUT_URL = '/logout/'
+
 MY_ID = 1
 
 REQUESTS_ON_PAGE = 10

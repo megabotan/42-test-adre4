@@ -54,11 +54,20 @@ class HttpTestSelenium(LiveServerTestCase):
         self.assertEquals(self.driver.current_url,
                           self.live_server_url + '/login/?next=/edit/'
                           )
+        self.driver.get(self.live_server_url + '/')
+        self.driver.find_element_by_link_text("Login").click()
+        self.assertEquals(self.driver.current_url,
+                          self.live_server_url + '/login/?next=/'
+                          )
         username_field = self.driver.find_element_by_name('username')
         username_field.send_keys('admin')
         password_field = self.driver.find_element_by_name('password')
         password_field.send_keys('admin')
         password_field.send_keys(Keys.RETURN)
+        self.assertEquals(self.driver.current_url,
+                          self.live_server_url + '/'
+                          )
+        self.driver.find_element_by_link_text("Edit").click()
         self.assertEquals(self.driver.current_url,
                           self.live_server_url + '/edit/'
                           )
