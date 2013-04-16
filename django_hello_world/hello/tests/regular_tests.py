@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django_hello_world.hello.models import Person, Request
 from django.conf import settings
+from django.template import Template, Context
 
 
 class HttpTest(TestCase):
@@ -67,3 +68,14 @@ class TemplateContextProcessor(TestCase):
         response = self.client.get(requestString)
         self.assertTrue('settings' in response.context)
         self.assertEquals(response.context['settings'], settings)
+
+
+class TemplateTag(TestCase):
+    def setUp(self):
+        self.me = Person.objects.get(id=settings.MY_ID)
+        
+    def test(self):
+        template_str = '{% load custom_tags %}{% edit_link person %}'
+        template = Template(template_str)
+        context = Context({"person": self.me})
+        self.assertEqual(template.render(context), '/admin/hello/person/1/')
