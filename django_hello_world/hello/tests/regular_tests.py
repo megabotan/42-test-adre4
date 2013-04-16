@@ -73,7 +73,7 @@ class TemplateContextProcessor(TestCase):
 class TemplateTag(TestCase):
     def setUp(self):
         self.me = Person.objects.get(id=settings.MY_ID)
-        
+
     def test(self):
         template_str = '{% load custom_tags %}{% edit_link person %}'
         template = Template(template_str)

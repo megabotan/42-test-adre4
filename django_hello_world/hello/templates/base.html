@@ -1,3 +1,4 @@
+{% load custom_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -17,7 +18,7 @@
 		    <div class="right_col">
 		        <div class="auth">
 		            {% if user.is_authenticated %}
-		                <p>Logged in as: {{user}}</p>
+		                <p>Logged in as: {{user}} <a href="{% edit_link user %}">Edit user</a></p>
 		            {% else %}
 		                <p><a href="/login/?next=/">Login</a></p>
 		            {% endif %}
