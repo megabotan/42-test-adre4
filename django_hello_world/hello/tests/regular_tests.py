@@ -61,6 +61,17 @@ class HttpTest(TestCase):
         self.assertContains(response, new_name)
         self.assertContains(response, 'Photo')
 
+    def test_authorization_not_logined(self):
+        response = self.client.get('/')
+        self.assertContains(response, 'Login')
+        self.assertNotContains(response, 'Logout')
+
+    def test_authorization_logined(self):
+        self.client.login(username='admin', password='admin')
+        response = self.client.get('/')
+        self.assertNotContains(response, 'Login')
+        self.assertContains(response, 'Logout')
+
 
 class TemplateContextProcessor(TestCase):
     def test_settings(self):
