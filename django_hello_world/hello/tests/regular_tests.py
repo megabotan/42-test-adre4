@@ -24,5 +24,9 @@ class HttpTest(TestCase):
                              )
         for i in range(reqests_on_page):
             self.assertContains(response, expected_requests[i].path)
+            self.assertTrue(Request.objects.filter(
+                            path=expected_requests[i].path).exists())
         for i in range(reqests_on_page, reqests_on_page*2):
             self.assertNotContains(response, expected_requests[i].path)
+            self.assertTrue(Request.objects.filter(
+                            path=expected_requests[i].path).exists())
