@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django_hello_world.hello.models import Person, Request
+from django.core.management import call_command
 from django.conf import settings
 from django.template import Template, Context
 
@@ -73,7 +74,7 @@ class HttpTest(TestCase):
         self.assertContains(response, 'Logout')
 
 
-class TemplateContextProcessor(TestCase):
+class TemplateContextProcessorTest(TestCase):
     def test_settings(self):
         requestString = '/vblkzlcxvbru'
         response = self.client.get(requestString)
@@ -81,7 +82,7 @@ class TemplateContextProcessor(TestCase):
         self.assertEquals(response.context['settings'], settings)
 
 
-class TemplateTag(TestCase):
+class TemplateTagTest(TestCase):
     def setUp(self):
         self.me = Person.objects.get(id=settings.MY_ID)
 
@@ -90,3 +91,13 @@ class TemplateTag(TestCase):
         template = Template(template_str)
         context = Context({"person": self.me})
         self.assertEqual(template.render(context), '/admin/hello/person/1/')
+
+
+class CommandTest(TestCase):
+    def test_print_models(self):
+        reqests_on_page = settings.REQUESTS_ON_PAGE
+        for i in range(reqests_on_page):
+            self.client.get('/')
+        self.assertEquals(call_command('print_models'),
+                          {'Persons': Person.objects.count(),
+                           'Requests': Request.objects.count()})
