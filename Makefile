@@ -17,3 +17,7 @@ run:
 syncdb:
 	$(MANAGE) syncdb --noinput  
 	$(MANAGE) migrate
+
+print_models:
+	$(MANAGE) print_models
+
