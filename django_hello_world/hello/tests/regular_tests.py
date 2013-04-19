@@ -99,5 +99,4 @@ class CommandTest(TestCase):
         for i in range(reqests_on_page):
             self.client.get('/')
         self.assertEquals(print_models.Command().handle().rstrip(),
-                          str({'person': Person.objects.count(),
-                              'request': Request.objects.count()}))
+                          'person : 1\nrequest : ' + str(reqests_on_page))
