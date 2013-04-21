@@ -3,7 +3,7 @@
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css"/>
 	<title>{% block title %}42 Coffee Cups Test Assignment{% endblock %}</title>
 	{% block script%}{% endblock %}
 </head>
@@ -14,15 +14,15 @@
 		    <div class="left_col">
 		        <h2>42 Coffee Cups Test Assignment</h2>
 		    </div>
-		    <div class="right_col">
-		        <div class="auth">
-		            {% if user.is_authenticated %}
-		                <p>Logged in as: {{user}} <a href="/logout/?next=/">Logout</a></p>
-		            {% else %}
-		                <p><a href="/login/?next=/">Login</a></p>
-		            {% endif %}
+		        <div class="right_col">
+		            <div class="auth">
+		                {% if user.is_authenticated %}
+		                    <p>Logged in as: {{user}} <a href="/logout/?next=/">Logout</a></p>
+		                {% else %}
+		                    <p><a href="/login/?next=/">Login</a></p>
+		                {% endif %}
+		            </div>
 		        </div>
-		    </div>
 		</div>
 		{% block content %}
 		{% endblock content %}

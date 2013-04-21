@@ -76,7 +76,7 @@ class HttpTestSelenium(LiveServerTestCase):
         data = dict(name='name',
                     last_name='last_name',
                     bio='bio',
-                    email='email@email.com',
+                    email='email',
                     jabber='jabber',
                     skype='skype',
                     other_contacts='other_contacts'
@@ -89,7 +89,12 @@ class HttpTestSelenium(LiveServerTestCase):
         date_field.clear()
         date_field.send_keys("")
         self.driver.find_element_by_id("ui-datepicker-div")
-        date_field.send_keys('01/01/1999')
+        date_field.send_keys('1999-01-01')
+        self.driver.find_element_by_name(data.keys()[0]).submit()
+        body = self.driver.find_element_by_tag_name('body')
+        self.assertIn('Enter a valid e-mail address.', body.text)
+        self.driver.find_element_by_name('email').clear()
+        self.driver.find_element_by_name('email').send_keys('email@email.com')
         self.driver.find_element_by_name(data.keys()[0]).submit()
         self.driver.get(self.live_server_url + '/')
         body = self.driver.find_element_by_tag_name('body')
