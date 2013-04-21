@@ -101,3 +101,29 @@ class CommandTest(TestCase):
         self.assertEquals(print_models.Command().handle().rstrip(),
                           'person : 1\nrequest : ' + str(reqests_on_page) +
                           '\nobject log : ' + str(ObjectLog.objects.count()))
+
+
+class SignalTest(TestCase):
+    def test_person(self):
+        person = Person(name='name',
+                        last_name='last_name',
+                        date_of_birth='1999-01-01',
+                        bio='bio',
+                        email='email',
+                        jabber='jabber',
+                        skype='skype',
+                        other_contacts='other_contacts'
+                        )
+        person.save()
+        last_change = ObjectLog.objects.latest('time')
+        self.assertEquals(Person, last_change.model_type.model_class())
+        self.assertEquals('created', last_change.action)
+        person.name = 'name1'
+        person.save()
+        last_change = ObjectLog.objects.latest('time')
+        self.assertEquals(Person, last_change.model_type.model_class())
+        self.assertEquals('edited', last_change.action)
+        person.delete()
+        last_change = ObjectLog.objects.latest('time')
+        self.assertEquals(Person, last_change.model_type.model_class())
+        self.assertEquals('deleted', last_change.action)
