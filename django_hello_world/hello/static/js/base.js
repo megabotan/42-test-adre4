@@ -1,6 +1,36 @@
 $(document).ready(function() {
-        remove_broken_img();
-        add_form_ajax();
+        add_image_features();
+        $('#edit_form').ajaxForm({
+            dataType : 'json',
+            beforeSend: function () {
+                clear_errors();
+                block_form();
+                 
+            },
+            success: function (response) {
+                $('#result').html(response.result);
+                if(response.result == 'Error')
+                {
+                    errors = '';
+                    for (error_ in response.errors)
+                    {
+                        errors+=response.errors[error_];
+                        error_elem = '';
+                        for (problem in response.errors[error_])
+                        {
+                            error_elem +=response.errors[error_][problem];
+                        }
+                        $('#error_'+error_).html('<strong>' + error_elem + '</strong><br/>');
+                    }
+                    
+                }
+                unblock_form();
+            },
+            error: function(response) { 
+                    unblock_form(); 
+                    $('#result').html('Error: data not send');
+            }
+        });
     });
     
 function readURL(input) {
@@ -15,13 +45,8 @@ function readURL(input) {
         }
     }
 
-function remove_broken_img(){
+function add_image_features(){
     document.getElementById('id_photo').setAttribute("onchange","readURL(this);")
-    var img = document.getElementById('thumb');
-    img.style.visibility = 'hidden';
-    img.onerror = function () { 
-    this.style.display = "none";
-    };
     };
     
 function block_form(){
@@ -32,25 +57,7 @@ function unblock_form(){
     $("#edit_form :input").removeAttr("disabled");
 };
 
-function add_form_ajax(){
-    $('#edit_form').submit(function() {
-            $('#result').html("Saving...");
-            $.ajax({ 
-                data: $(this).serialize(), 
-                type: $(this).attr('method'), 
-                url: $(this).attr('action'),
-                beforeSend: function() { 
-                    block_form(); 
-                },
-                success: function(response) { 
-                    $('#result').html(response);
-                    unblock_form(); 
-                },
-                error: function() { 
-                    $('#result').html("Error");
-                    unblock_form(); 
-                }
-            });
-            return false;
-        });
-    };
+function clear_errors(){
+        $(".fieldWrapper div").empty();
+
+};
