@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django_hello_world.hello.models import Person, Request
+from django_hello_world.hello.models import Person, Request, ObjectLog
 from django_hello_world.hello.management.commands import print_models
 from django.conf import settings
 from django.template import Template, Context
@@ -99,4 +99,5 @@ class CommandTest(TestCase):
         for i in range(reqests_on_page):
             self.client.get('/')
         self.assertEquals(print_models.Command().handle().rstrip(),
-                          'person : 1\nrequest : ' + str(reqests_on_page))
+                          'person : 1\nrequest : ' + str(reqests_on_page) +
+                          '\nobject log : ' + str(ObjectLog.objects.count()))
