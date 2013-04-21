@@ -35,3 +35,6 @@ class ObjectLog(models.Model):
     model_type = models.ForeignKey(ContentType)
     action = models.CharField(max_length=10)
     time = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return str(self.model_type) + " " + self.action

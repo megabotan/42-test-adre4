@@ -105,6 +105,7 @@ class CommandTest(TestCase):
 
 class SignalTest(TestCase):
     def test_person(self):
+        log_length = ObjectLog.objects.count()
         person = Person(name='name',
                         last_name='last_name',
                         date_of_birth='1999-01-01',
@@ -114,16 +115,18 @@ class SignalTest(TestCase):
                         skype='skype',
                         other_contacts='other_contacts'
                         )
-        person.save()
+        self.assertEquals(log_length + 1, ObjectLog.objects.count())
         last_change = ObjectLog.objects.latest('time')
         self.assertEquals(Person, last_change.model_type.model_class())
         self.assertEquals('created', last_change.action)
         person.name = 'name1'
         person.save()
+        self.assertEquals(log_length + 2, ObjectLog.objects.count())
         last_change = ObjectLog.objects.latest('time')
         self.assertEquals(Person, last_change.model_type.model_class())
         self.assertEquals('edited', last_change.action)
         person.delete()
+        self.assertEquals(log_length + 3, ObjectLog.objects.count())
         last_change = ObjectLog.objects.latest('time')
         self.assertEquals(Person, last_change.model_type.model_class())
         self.assertEquals('deleted', last_change.action)
