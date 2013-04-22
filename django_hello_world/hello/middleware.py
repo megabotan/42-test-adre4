@@ -1,7 +1,7 @@
 from django_hello_world.hello.models import Request
 
 
-class Middleware:
+class RequestMiddleware:
     def process_request(self, request):
         if request.user.is_authenticated():
             request_user = request.user

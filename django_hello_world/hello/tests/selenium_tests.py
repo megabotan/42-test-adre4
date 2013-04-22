@@ -10,6 +10,7 @@ class HttpTestSelenium(LiveServerTestCase):
     def setUpClass(cls):
         from selenium.webdriver.firefox.webdriver import WebDriver
         cls.driver = WebDriver()
+        cls.driver.implicitly_wait(5)
         super(HttpTestSelenium, cls).setUpClass()
 
     @classmethod
@@ -101,3 +102,15 @@ class HttpTestSelenium(LiveServerTestCase):
         for elem in data:
             self.assertIn(data[elem], body.text)
         self.assertIn('Jan. 1, 1999', body.text)
+
+    def test_tag_edit_link(self):
+        self.driver.get(self.live_server_url + '/login/?next=/')
+        username_field = self.driver.find_element_by_name('username')
+        username_field.send_keys('admin')
+        password_field = self.driver.find_element_by_name('password')
+        password_field.send_keys('admin')
+        password_field.send_keys(Keys.RETURN)
+        self.driver.find_element_by_link_text('(admin)').click()
+        self.assertEquals(self.driver.current_url,
+                          self.live_server_url + '/admin/auth/user/1/'
+                          )
