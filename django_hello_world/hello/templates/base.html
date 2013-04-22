@@ -4,7 +4,7 @@
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css"/>
 	<title>{% block title %}42 Coffee Cups Test Assignment{% endblock %}</title>
 	{% block script%}{% endblock %}
 </head>
@@ -18,7 +18,7 @@
 		    <div class="right_col">
 		        <div class="auth">
 		            {% if user.is_authenticated %}
-		                <p>Logged in as: {{user}} <a href="{% edit_link user %}">Edit user</a></p>
+		                <p>Logged in as: {{user}} <a href="{% edit_link user %}">Edit user</a> <a href="/logout/?next=/">Logout</a></p>
 		            {% else %}
 		                <p><a href="/login/?next=/">Login</a></p>
 		            {% endif %}
