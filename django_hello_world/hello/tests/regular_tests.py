@@ -55,7 +55,7 @@ class HttpTest(TestCase):
             obj.save()
         response = self.client.get('/requests/')
         expected_requests = (Request.objects.all()
-                             .order_by('priority')[:reqests_on_page*2]
+                             .order_by('-priority')[:reqests_on_page*2]
                              )
         for i in range(reqests_on_page):
             self.assertContains(response, expected_requests[i].path)
