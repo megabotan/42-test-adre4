@@ -9,7 +9,7 @@
 	    <div class="right_col">
 	        <div class="auth">
 	            {% if user.is_authenticated %}
-	                <p><a href="edit/">Edit</a> <a href="{% edit_link user %}">({{user}})</a> <a href="/logout/?next=/">Logout</a></p>
+	                <p><a href="edit/">Edit</a> <a href="{% edit_link person %}">(admin)</a> <a href="/logout/?next=/">Logout</a></p>
 	            {% else %}
 	                <p><a href="/login/?next=/">Login</a></p>
 	            {% endif %}
