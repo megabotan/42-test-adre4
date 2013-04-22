@@ -110,7 +110,7 @@ class HttpTestSelenium(LiveServerTestCase):
         password_field = self.driver.find_element_by_name('password')
         password_field.send_keys('admin')
         password_field.send_keys(Keys.RETURN)
-        self.driver.find_element_by_link_text('Edit user').click()
+        self.driver.find_element_by_link_text('(admin)').click()
         self.assertEquals(self.driver.current_url,
                           self.live_server_url + '/admin/auth/user/1/'
                           )

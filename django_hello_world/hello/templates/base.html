@@ -18,7 +18,7 @@
 		    <div class="right_col">
 		        <div class="auth">
 		            {% if user.is_authenticated %}
-		                <p>Logged in as: {{user}} <a href="{% edit_link user %}">Edit user</a> <a href="/logout/?next=/">Logout</a></p>
+		                <p><a href="{% edit_link user %}">({{user}})</a> <a href="/logout/?next=/">Logout</a></p>
 		            {% else %}
 		                <p><a href="/login/?next=/">Login</a></p>
 		            {% endif %}
