@@ -43,9 +43,9 @@ class HttpTest(TestCase):
 
     def test_edit_page(self):
         new_name = self.me.name+'1'
-        response = self.client.get('/edit/')
-        self.assertRedirects(response, '/login/?next=/edit/')
         self.assertTrue(self.client.login(username='admin', password='admin'))
+        response = self.client.get('/edit/')
+        self.assertContains(response, 'my_widget.js')
         photo = open('django_hello_world/hello/tests/test_image.jpg', 'r')
         response = self.client.post('/edit/',
                                     {'name': new_name,
@@ -66,6 +66,8 @@ class HttpTest(TestCase):
         response = self.client.get('/')
         self.assertContains(response, 'Login')
         self.assertNotContains(response, 'Logout')
+        response = self.client.get('/edit/')
+        self.assertRedirects(response, '/login/?next=/edit/')
 
     def test_authorization_logined(self):
         self.client.login(username='admin', password='admin')

@@ -56,7 +56,7 @@ class HttpTestSelenium(LiveServerTestCase):
                           self.live_server_url + '/login/?next=/edit/'
                           )
         self.driver.get(self.live_server_url + '/')
-        self.driver.find_element_by_link_text("Login").click()
+        self.driver.find_element_by_link_text('Login').click()
         self.assertEquals(self.driver.current_url,
                           self.live_server_url + '/login/?next=/'
                           )
@@ -68,7 +68,7 @@ class HttpTestSelenium(LiveServerTestCase):
         self.assertEquals(self.driver.current_url,
                           self.live_server_url + '/'
                           )
-        self.driver.find_element_by_link_text("Edit").click()
+        self.driver.find_element_by_link_text('Edit').click()
         self.assertEquals(self.driver.current_url,
                           self.live_server_url + '/edit/'
                           )
@@ -88,8 +88,8 @@ class HttpTestSelenium(LiveServerTestCase):
             field.send_keys(data[elem])
         date_field = self.driver.find_element_by_name('date_of_birth')
         date_field.clear()
-        date_field.send_keys("")
-        self.driver.find_element_by_id("ui-datepicker-div")
+        date_field.send_keys('')
+        self.driver.find_element_by_id('ui-datepicker-div')
         date_field.send_keys('1999-01-01')
         self.driver.find_element_by_name(data.keys()[0]).submit()
         body = self.driver.find_element_by_tag_name('body')
