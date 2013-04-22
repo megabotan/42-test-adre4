@@ -26,12 +26,36 @@ class HttpTest(TestCase):
 
     def test_requests(self):
         reqests_on_page = settings.REQUESTS_ON_PAGE
+        random_url = '/vblkzlcxvbru'
         for i in range(reqests_on_page*2):
-            requestString = '/vblkzlcxvbru' + str(i)
+            requestString = random_url + str(i)
             self.client.get(requestString)
         response = self.client.get('/requests/')
         expected_requests = (Request.objects.all()
                              .order_by('date')[:reqests_on_page*2]
+                             )
+        for i in range(reqests_on_page):
+            self.assertContains(response, expected_requests[i].path)
+            self.assertTrue(Request.objects.filter(
+                            path=expected_requests[i].path).exists())
+        for i in range(reqests_on_page, reqests_on_page*2):
+            self.assertNotContains(response, expected_requests[i].path)
+            self.assertTrue(Request.objects.filter(
+                            path=expected_requests[i].path).exists())
+
+    def test_requests_priority(self):
+        reqests_on_page = settings.REQUESTS_ON_PAGE
+        random_url = '/vblkzlcxvbru'
+        for i in range(reqests_on_page*2):
+            requestString = random_url + str(i)
+            self.client.get(requestString)
+        for i in range(reqests_on_page):
+            obj = Request.objects.get(path='/vblkzlcxvbru'+str(i))
+            obj.priority = 1
+            obj.save()
+        response = self.client.get('/requests/')
+        expected_requests = (Request.objects.all()
+                             .order_by('priority')[:reqests_on_page*2]
                              )
         for i in range(reqests_on_page):
             self.assertContains(response, expected_requests[i].path)
