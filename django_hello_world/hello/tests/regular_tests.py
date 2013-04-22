@@ -1,6 +1,7 @@
 from django.test import TestCase
-from django_hello_world.hello.models import Person, Request
+from django_hello_world.hello.models import Person, Request, ObjectLog
 from django_hello_world.hello.management.commands import print_models
+from django_hello_world.hello.forms import CalendarWidget
 from django.conf import settings
 from django.template import Template, Context
 
@@ -25,8 +26,9 @@ class HttpTest(TestCase):
 
     def test_requests(self):
         reqests_on_page = settings.REQUESTS_ON_PAGE
+        random_url = '/vblkzlcxvbru'
         for i in range(reqests_on_page*2):
-            requestString = '/vblkzlcxvbru' + str(i)
+            requestString = random_url + str(i)
             self.client.get(requestString)
         response = self.client.get('/requests/')
         expected_requests = (Request.objects.all()
@@ -41,11 +43,36 @@ class HttpTest(TestCase):
             self.assertTrue(Request.objects.filter(
                             path=expected_requests[i].path).exists())
 
+    def test_requests_priority(self):
+        reqests_on_page = settings.REQUESTS_ON_PAGE
+        random_url = '/vblkzlcxvbru'
+        for i in range(reqests_on_page*2):
+            requestString = random_url + str(i)
+            self.client.get(requestString)
+        for i in range(reqests_on_page):
+            obj = Request.objects.get(path='/vblkzlcxvbru'+str(i))
+            obj.priority = 1
+            obj.save()
+        response = self.client.get('/requests/')
+        expected_requests = (Request.objects.all()
+                             .order_by('-priority')[:reqests_on_page*2]
+                             )
+        for i in range(reqests_on_page):
+            self.assertContains(response, expected_requests[i].path)
+            self.assertTrue(Request.objects.filter(
+                            path=expected_requests[i].path).exists())
+        for i in range(reqests_on_page, reqests_on_page*2):
+            self.assertNotContains(response, expected_requests[i].path)
+            self.assertTrue(Request.objects.filter(
+                            path=expected_requests[i].path).exists())
+
     def test_edit_page(self):
         new_name = self.me.name+'1'
-        response = self.client.get('/edit/')
-        self.assertRedirects(response, '/login/?next=/edit/')
         self.assertTrue(self.client.login(username='admin', password='admin'))
+        response = self.client.get('/edit/')
+        self.assertTrue(
+            isinstance(response.context['form']['date_of_birth'].field.widget,
+                       CalendarWidget))
         photo = open('django_hello_world/hello/tests/test_image.jpg', 'r')
         response = self.client.post('/edit/',
                                     {'name': new_name,
@@ -66,6 +93,8 @@ class HttpTest(TestCase):
         response = self.client.get('/')
         self.assertContains(response, 'Login')
         self.assertNotContains(response, 'Logout')
+        response = self.client.get('/edit/')
+        self.assertRedirects(response, '/login/?next=/edit/')
 
     def test_authorization_logined(self):
         self.client.login(username='admin', password='admin')
@@ -99,4 +128,34 @@ class CommandTest(TestCase):
         for i in range(reqests_on_page):
             self.client.get('/')
         self.assertEquals(print_models.Command().handle().rstrip(),
-                          'person : 1\nrequest : ' + str(reqests_on_page))
+                          'person : 1\nrequest : ' + str(reqests_on_page) +
+                          '\nobject log : ' + str(ObjectLog.objects.count()))
+
+
+class SignalTest(TestCase):
+    def test_person(self):
+        log_length = ObjectLog.objects.count()
+        person = Person(name='name',
+                        last_name='last_name',
+                        date_of_birth='1999-01-01',
+                        bio='bio',
+                        email='email',
+                        jabber='jabber',
+                        skype='skype',
+                        other_contacts='other_contacts'
+                        )
+        self.assertEquals(log_length + 1, ObjectLog.objects.count())
+        last_change = ObjectLog.objects.latest('time')
+        self.assertEquals(Person, last_change.model_type.model_class())
+        self.assertEquals('created', last_change.action)
+        person.name = 'name1'
+        person.save()
+        self.assertEquals(log_length + 2, ObjectLog.objects.count())
+        last_change = ObjectLog.objects.latest('time')
+        self.assertEquals(Person, last_change.model_type.model_class())
+        self.assertEquals('edited', last_change.action)
+        person.delete()
+        self.assertEquals(log_length + 3, ObjectLog.objects.count())
+        last_change = ObjectLog.objects.latest('time')
+        self.assertEquals(Person, last_change.model_type.model_class())
+        self.assertEquals('deleted', last_change.action)

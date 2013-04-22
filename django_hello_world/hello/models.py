@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 
 
 class Person(models.Model):
@@ -25,6 +26,16 @@ class Request(models.Model):
     method = models.CharField(max_length=10)
     user = models.ForeignKey(User, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    priority = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.method + " " + self.path
+
+
+class ObjectLog(models.Model):
+    model_type = models.ForeignKey(ContentType)
+    action = models.CharField(max_length=10)
+    time = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return str(self.model_type) + " " + self.action

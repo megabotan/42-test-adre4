@@ -19,5 +19,5 @@ syncdb:
 	$(MANAGE) migrate
 
 print_models:
-	$(MANAGE) print_models
+	PYTHONPATH=. $(MANAGE) print_models
 

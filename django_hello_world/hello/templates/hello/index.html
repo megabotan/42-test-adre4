@@ -1,39 +1,56 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
-{% block content %}
-	<div class="content">
-
+{% block body %}
+	<div class="header">
 	    <div class="left_col">
-
-		    <p>Name: {{person.name }}</p>
-		    <p>Last name: {{person.last_name }}</p>
-		    <p>Date of birth: {{person.date_of_birth }}</p>
-
-		    <p>Photo:</p>
-		    <img class="thumbnail" src={{person.photo.url}}>
+	        <h2>42 Coffee Cups Test Assignment</h2>
 	    </div>
-
 	    <div class="right_col">
-
-		    <h3>Contacts</h3>
-		    <p>Email: {{person.email}}</p>
-		    <p>Jabber: {{person.jabber}}</p>
-		    <p>Skype: {{person.skype}}</p>
-		    <div class="top_half">
-		        <p>Bio:</p> 
-		        <p>{{person.bio|linebreaks}}</p>
-		    </div>
-		    <div class="bot_half">
-		        <p>Other contacts: </p> 
-			    <p>{{person.other_contacts|linebreaks}}</p>
-			</div>
+	        <div class="auth">
+	            {% if user.is_authenticated %}
+	                <p><a href="edit/">Edit</a> <a href="{% edit_link person %}">(admin)</a> <a href="/logout/?next=/">Logout</a></p>
+	            {% else %}
+	                <p><a href="/login/?next=/">Login</a></p>
+	            {% endif %}
+	        </div>
 	    </div>
-    </div>
+	</div>
+		
+    {% block content %}
+	    <div class="content">
+
+	        <div class="left_col">
+
+		        <p>Name: {{person.name }}</p>
+		        <p>Last name: {{person.last_name }}</p>
+		        <p>Birth date: {{person.date_of_birth }}</p>
+
+		        <p>Photo:</p>
+		        <img class="thumbnail" src={{person.photo.url}}>
+	        </div>
+
+	        <div class="right_col">
+
+		        <h3>Contacts</h3>
+		        <p>Email: {{person.email}}</p>
+		        <p>Jabber: {{person.jabber}}</p>
+		        <p>Skype: {{person.skype}}</p>
+		        <div class="top_half">
+		            <p>Bio:</p> 
+		            <p>{{person.bio|linebreaks}}</p>
+		        </div>
+		        <div class="bot_half">
+		            <p>Other contacts: </p> 
+			        <p>{{person.other_contacts|linebreaks}}</p>
+			    </div>
+	        </div>
+        </div>
 
 
-    <div class="footer">	
-        <hr>
-        <a href="requests/">requests</a></br>
-        <a href="edit/">Edit</a>
-    </div>
-{% endblock content %}
+        <div class="footer">	
+            <hr>
+            <a href="requests/">requests</a></br>
+        </div>
+    {% endblock content %}
+{% endblock body %}

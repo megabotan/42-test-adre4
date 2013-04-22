@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.utils import simplejson
 import os
 
 
@@ -13,7 +14,7 @@ def home(request):
 
 
 def requests(request):
-    first_requests = Request.objects.all().order_by('date')[:10]
+    first_requests = Request.objects.all().order_by('-priority', 'date')[:10]
     return render(request, 'hello/requests.html',
                   {'first_requests': first_requests})
 
@@ -27,7 +28,14 @@ def edit(request):
             form = PersonForm(request.POST, request.FILES, instance=person)
             form.save()
             clear_images_folder(person.photo)
-            return HttpResponse("Changes have been saved")
+            response_data = {'result': 'Changes have been saved'}
+            return HttpResponse(simplejson.dumps(response_data),
+                                content_type="application/json")
+        else:
+            response_data = {'result': 'Error',
+                             'errors': dict(form.errors.items())}
+            return HttpResponse(simplejson.dumps(response_data),
+                                content_type="application/json")
     else:
         form = PersonForm(instance=person)
     return render(request, 'hello/edit.html', {
