@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django_hello_world.hello.models import Person, Request, ObjectLog
 from django_hello_world.hello.management.commands import print_models
+from django_hello_world.hello.forms import CalendarWidget
 from django.conf import settings
 from django.template import Template, Context
 
@@ -45,7 +46,9 @@ class HttpTest(TestCase):
         new_name = self.me.name+'1'
         self.assertTrue(self.client.login(username='admin', password='admin'))
         response = self.client.get('/edit/')
-        self.assertContains(response, 'my_widget.js')
+        self.assertTrue(
+            isinstance(response.context['form']['date_of_birth'].field.widget,
+                       CalendarWidget))
         photo = open('django_hello_world/hello/tests/test_image.jpg', 'r')
         response = self.client.post('/edit/',
                                     {'name': new_name,
