@@ -14,7 +14,8 @@ def home(request):
 
 
 def requests(request):
-    first_requests = Request.objects.all().order_by('-priority', 'date')[:10]
+    sort = request.GET.get('sort', 'date')
+    first_requests = Request.objects.all().order_by(sort, 'date')[:10]
     return render(request, 'hello/requests.html',
                   {'first_requests': first_requests})
 
