@@ -36,6 +36,9 @@ class ObjectLog(models.Model):
     model_type = models.ForeignKey(ContentType)
     action = models.CharField(max_length=10)
     time = models.DateTimeField(auto_now=True)
+    object_id = models.CharField(max_length=100, blank=True, null=True)
 
     def __unicode__(self):
-        return str(self.model_type) + " " + self.action
+        return (str(self.model_type) +
+                ' id: ' + str(self.object_id) + ' ' +
+                self.action + ' at ' + str(self.time))
