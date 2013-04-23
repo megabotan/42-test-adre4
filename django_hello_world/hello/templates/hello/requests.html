@@ -1,14 +1,15 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
 {% block content %}
 	<div>
         <table class="requests">
                 <tr>
-                    <th>Url</th>
-                    <th>Method</th>
-                    <th>User</th>
-                    <th>Date</th>
-                    <th>Priority</th>
+                    <th>Url {% sort_url 'path' %}</th>
+                    <th>Method {% sort_url 'method' %}</th>
+                    <th>User {% sort_url 'user' %}</th>
+                    <th>Date {% sort_url 'date' %}</th>
+                    <th>Priority {% sort_url 'priority' %}</th>
                 </tr>
             {% for request_ in first_requests %}
                 <tr>

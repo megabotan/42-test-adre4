@@ -28,3 +28,9 @@ class EditLinkNode(template.Node):
                 args=[ready_object.id])
         except template.VariableDoesNotExist:
             return ''
+
+
+@register.simple_tag
+def sort_url(sort_name):
+    return ('<a href=?sort=' + str(sort_name) + '>+</a><a href=?sort=-' +
+            str(sort_name) + '>-</a>')
