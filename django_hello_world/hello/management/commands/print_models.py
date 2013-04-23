@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.db.models import get_app, get_models
+from django.db.models import get_models
 import sys
 
 
@@ -13,10 +13,10 @@ def prepare_to_output(dictionary):
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        app = get_app('hello')
         result = {}
-        for model in get_models(app):
-            result[model._meta.verbose_name] = model.objects.count()
+        for model in get_models():
+            result[model.__name__] = model.objects.count()
         output = prepare_to_output(result)
-        sys.stderr.write("error:\n" + output)
+        for str_ in output.rstrip().split('\n'):
+            sys.stderr.write('error: ' + str_ + '\n')
         return output

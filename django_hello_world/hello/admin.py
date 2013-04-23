@@ -7,7 +7,7 @@ class RequestAdmin(admin.ModelAdmin):
 
 
 class ObjectLogAdmin(admin.ModelAdmin):
-    list_display = ('model_type', 'action', 'time')
+    list_display = ('model_type', 'object_id', 'action', 'time')
 
 
 admin.site.register(Person)
