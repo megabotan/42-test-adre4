@@ -26,6 +26,7 @@ class Request(models.Model):
     method = models.CharField(max_length=10)
     user = models.ForeignKey(User, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    priority = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.method + " " + self.path
